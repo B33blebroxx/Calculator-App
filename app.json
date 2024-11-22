@@ -3,6 +3,12 @@
     "name": "Calculator-App",
     "slug": "Calculator-App",
     "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "description": "This is a simple calculator app",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -13,9 +19,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.b33blebroxx.calculatorapp"
     },
     "android": {
+      "package": "com.b33blebroxx.calculatorapp",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -23,6 +31,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ca09248d-b166-4da3-a6fa-dbf706d080e0"
+      }
     }
   }
 }

@@ -47,7 +47,7 @@ const handleEqual = (state) => {
   }
 };
 
-const calculator = (type, valuse, state) => {
+const calculator = (type, value, state) => {
   switch (type) {
     case "number":
       return handleNumber(value, state);
