@@ -16,7 +16,7 @@ export default class App extends Component {
       <View style={styles.container}>
         <SafeAreaView>
           <Text style={styles.value}>
-            {parseFloat(this.state.currentValue).toLocaleString()}
+            {this.state.displayValue}
           </Text>
           <Row>
             <Button text="C" theme="secondary" onPress={() => this.handleTap("clear")} />
