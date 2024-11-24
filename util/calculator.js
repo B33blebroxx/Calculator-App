@@ -1,3 +1,5 @@
+import { evaluate } from "mathjs";
+
 export const initialState = {
   currentValue: "0",
   operator: null,
@@ -18,7 +20,7 @@ export const handleNumber = (value, state) => {
     const { displayValue } = state;
   
     try {
-      const result = eval(displayValue);
+      const result = evaluate(displayValue);
       return {
         currentValue: `${result}`,
         displayValue: `${result}`,
@@ -26,7 +28,7 @@ export const handleNumber = (value, state) => {
         previousValue: null,
       };
     } catch (error) {
-      return state;
+      return { ...state, displayValue: "Error" };
     }
   };
 

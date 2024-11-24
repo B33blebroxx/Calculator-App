@@ -1,14 +1,15 @@
 {
+  "author": "B33blebroxx (Brandon Schnurbusch)",
   "expo": {
-    "name": "Calculator-App",
-    "slug": "Calculator-App",
+    "name": "Calculator",
+    "slug": "Calculator",
     "version": "1.0.0",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
-    "description": "This is a simple calculator app",
+    "description": "This is a simple calculator app (the first half of a shopping list/calculator app).",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -30,7 +31,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
     "extra": {
       "eas": {
