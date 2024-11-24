@@ -2,7 +2,7 @@
   "author": "B33blebroxx (Brandon Schnurbusch)",
   "expo": {
     "name": "Calculator",
-    "slug": "Calculator",
+    "slug": "Calculator-App",
     "version": "1.0.0",
     "platforms": [
       "ios",
