@@ -7,32 +7,32 @@ export const initialState = {
   displayValue: "0"
 };
 
-export const handleNumber = (value, state) => {
-   const { displayValue, currentValue } = state;
+const handleNumber = (value, state) => {
+  const { displayValue, currentValue } = state;
    
-   return {
+  return {
     currentValue: currentValue === "0" ? `${value}` : `${currentValue}${value}`,
     displayValue: displayValue === "0" ? `${value}` : `${displayValue}${value}`
-   }
-  }
-
-  const handleEqual = (state) => {
-    const { displayValue } = state;
-  
-    try {
-      const result = evaluate(displayValue);
-      return {
-        currentValue: `${result}`,
-        displayValue: `${result}`,
-        operator: null,
-        previousValue: null,
-      };
-    } catch (error) {
-      return { ...state, displayValue: "Error" };
-    }
   };
+};
 
-const calculator = (type, value, state) => {
+const handleEqual = (state) => {
+  const { displayValue } = state;
+
+  try {
+    const result = evaluate(displayValue);
+    return {
+      currentValue: `${result}`,
+      displayValue: `${result}`,
+      operator: null,
+      previousValue: null,
+    };
+  } catch (error) {
+    return { ...state, displayValue: "Error" };
+  }
+};
+
+export const calculateResult = (type, value, state) => {
   switch (type) {
     case "number":
       return handleNumber(value, state);
@@ -52,7 +52,7 @@ const calculator = (type, value, state) => {
         ...state,
         currentValue: `${parseFloat(state.currentValue) * 0.01}`,
         displayValue: `${state.displayValue} * 0.01`
-      }
+      };
 
     case "operator":
       return {
@@ -61,7 +61,7 @@ const calculator = (type, value, state) => {
         previousValue: state.currentValue,
         currentValue: "0",
         displayValue: `${state.displayValue} ${value}`,
-      }
+      };
 
     case "equal":
       return handleEqual(state);
@@ -70,5 +70,3 @@ const calculator = (type, value, state) => {
       return state;
   }
 };
-
-export default calculator;
