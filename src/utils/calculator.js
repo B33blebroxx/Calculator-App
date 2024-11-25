@@ -1,4 +1,4 @@
-import { evaluate } from "mathjs";
+import Decimal from "decimal.js";
 
 export const initialState = {
   currentValue: "0",
@@ -20,7 +20,7 @@ const handleEqual = (state) => {
   const { displayValue } = state;
 
   try {
-    const result = evaluate(displayValue);
+    const result = new Decimal(eval(displayValue)).toString();
     return {
       currentValue: `${result}`,
       displayValue: `${result}`,
