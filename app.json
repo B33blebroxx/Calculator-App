@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ListPlus",
-    "slug": "ListPlusApp",
+    "slug": "Calculator-App",
     "version": "1.0.0",
     "platforms": [
       "ios",
