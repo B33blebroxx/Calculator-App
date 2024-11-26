@@ -11,8 +11,8 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={({ route}) => ({
-          tabBarIcon: ({ color, size}) => {
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color, size }) => {
             let iconName;
 
             if (route.name === "Shopping List") {
@@ -22,12 +22,42 @@ export default function AppNavigator() {
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: "tomato",
+          tabBarActiveTintColor: "white",
           tabBarInactiveTintColor: "gray",
-        })}>
-        <Tab.Screen name="Shopping List" component={ShoppingListScreen} />
-        <Tab.Screen name="Calculator" component={CalculatorScreen} />
+          tabBarStyle: {
+            backgroundColor: "black", // Black background for tab navigator
+          },
+        })}
+      >
+        <Tab.Screen 
+          name="Shopping List" 
+          component={ShoppingListScreen}
+          options={{
+            headerStyle: {
+              backgroundColor: "black",
+            },
+            headerTitleStyle: {
+              color: "white",
+              textAlign: "center",
+            },
+            headerTitleAlign: "center",
+          }}
+        />
+        <Tab.Screen 
+          name="Calculator" 
+          component={CalculatorScreen}
+          options={{
+            headerStyle: {
+              backgroundColor: "black",
+            },
+            headerTitleStyle: {
+              color: "white",
+              textAlign: "center",
+            },
+            headerTitleAlign: "center",
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
-  )
+  );
 }
