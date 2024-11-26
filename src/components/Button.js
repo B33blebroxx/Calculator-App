@@ -53,6 +53,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#a6a6a6"
   },
   buttonAccent: {
-    backgroundColor: "#ffc107"
+    backgroundColor: "#2196F3"
   }
 })

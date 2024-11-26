@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -20,9 +20,6 @@ export default function ShoppingListScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [newItem, setNewItem] = useState("");
   const [quantity, setQuantity] = useState(1);
-  
-  // Keep track of opened swipeable
-  const swipeableRef = useRef(null);
 
   useEffect(() => {
     const fetchShoppingList = async () => {
@@ -80,14 +77,12 @@ export default function ShoppingListScreen() {
     });
 
     return (
-      <View style={styles.deleteContainer}>
+      <Animated.View style={styles.deleteContainer}>
         <Animated.View
-          style={[
-            styles.deleteButton,
-            {
-              transform: [{ translateX: trans }],
-            },
-          ]}>
+          style={[styles.deleteButton, {
+            transform: [{ translateX: trans }],
+          }]}
+        >
           <TouchableOpacity
             onPress={() => deleteItem(itemId)}
             style={styles.deleteButtonInner}
@@ -95,22 +90,16 @@ export default function ShoppingListScreen() {
             <Text style={styles.deleteButtonText}>Delete</Text>
           </TouchableOpacity>
         </Animated.View>
-      </View>
+      </Animated.View>
     );
   };
 
   const renderItem = ({ item }) => {
     return (
       <Swipeable
-        ref={swipeableRef}
         renderRightActions={(progress, dragX) =>
           renderRightActions(progress, dragX, item.id)
         }
-        onSwipeableOpen={() => {
-          if (swipeableRef.current) {
-            swipeableRef.current.close();
-          }
-        }}
       >
         <TouchableOpacity
           style={styles.itemBox}
@@ -211,7 +200,7 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'black',
     padding: 16,
   },
   addButton: {
@@ -242,104 +231,104 @@ const styles = StyleSheet.create({
   },
   acquired: {
     textDecorationLine: 'line-through',
-    color: '#888',
-  },
-  deleteContainer: {
-    width: 100,
-    marginBottom: 8,
-  },
-  deleteButton: {
-    flex: 1,
-    backgroundColor: '#ff4444',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderTopRightRadius: 8,
-    borderBottomRightRadius: 8,
-  },
-  deleteButtonInner: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-  },
-  deleteButtonText: {
-    color: '#fff',
-    fontWeight: '600',
-    padding: 16,
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContainer: {
-    width: width * 0.85,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
-  modalContent: {
-    padding: 20,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 16,
-    fontSize: 16,
+    color: 'gray',
   },
   quantityControls: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
+    justifyContent: 'center',
+    marginBottom: 16,
   },
   quantityButton: {
-    backgroundColor: '#f0f0f0',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#444',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    width: 50, // Set a fixed width to prevent stretch
   },
   quantityButtonText: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#2196F3',
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   quantityText: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginHorizontal: 20,
+    color: '#fff',
+    fontSize: 18,
+    marginHorizontal: 16,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContainer: {
+    width: width - 32,
+    backgroundColor: '#333',
+    borderRadius: 12,
+    padding: 16,
+  },
+  modalContent: {
+    padding: 16,
+  },
+  modalTitle: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  input: {
+    backgroundColor: '#444',
+    color: '#fff',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 16,
   },
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 12,
   },
   modalButton: {
-    flex: 1,
     padding: 12,
     borderRadius: 8,
-    alignItems: 'center',
+    width: '48%',
   },
   cancelButton: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#666',
   },
   cancelButtonText: {
-    color: '#666',
-    fontSize: 16,
-    fontWeight: '600',
+    color: '#fff',
+    textAlign: 'center',
   },
   addItemButton: {
     backgroundColor: '#2196F3',
+  },
+  deleteContainer: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingVertical: 16,
+    paddingRight: 16,
+    width: 100,
+    borderRadius: 8,
+    marginRight: 10,
+    marginBottom: 8,
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    borderRadius: 8,
+  },
+  deleteButtonInner: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
