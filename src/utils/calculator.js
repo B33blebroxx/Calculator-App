@@ -4,15 +4,15 @@ export const initialState = {
   currentValue: "0",
   operator: null,
   previousValue: null,
-  displayValue: "0"
+  displayValue: "0",
 };
 
 const handleNumber = (value, state) => {
   const { displayValue, currentValue } = state;
-   
+
   return {
     currentValue: currentValue === "0" ? `${value}` : `${currentValue}${value}`,
-    displayValue: displayValue === "0" ? `${value}` : `${displayValue}${value}`
+    displayValue: displayValue === "0" ? `${value}` : `${displayValue}${value}`,
   };
 };
 
@@ -20,7 +20,8 @@ const handleEqual = (state) => {
   const { displayValue } = state;
 
   try {
-    const result = new Decimal(eval(displayValue)).toString();
+    // Calculate the result and round it to two decimal places
+    const result = new Decimal(eval(displayValue)).toFixed(2); // Use .toFixed(2) for two decimal places
     return {
       currentValue: `${result}`,
       displayValue: `${result}`,
@@ -41,17 +42,18 @@ export const calculateResult = (type, value, state) => {
       return initialState;
 
     case "posneg":
+      const invertedValue = parseFloat(state.currentValue) * -1;
       return {
         ...state,
-        currentValue: `${parseFloat(state.currentValue) * -1}`,
-        displayValue: `${state.displayValue} * -1` 
+        currentValue: `${invertedValue}`,
+        displayValue: `${invertedValue}`,
       };
 
     case "percentage":
       return {
         ...state,
         currentValue: `${parseFloat(state.currentValue) * 0.01}`,
-        displayValue: `${state.displayValue} * 0.01`
+        displayValue: `${state.displayValue} * 0.01`,
       };
 
     case "operator":

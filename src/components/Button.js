@@ -1,4 +1,9 @@
-import { Dimensions, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { Dimensions, StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { Button as PaperButton } from "react-native-paper";
+
+const screen = Dimensions.get("window");
+const buttonWidth = screen.width / 4;
 
 export default ({ onPress, text, size, theme }) => {
   const buttonStyles = [styles.button];
@@ -8,51 +13,52 @@ export default ({ onPress, text, size, theme }) => {
     buttonStyles.push(styles.buttonDouble);
   }
 
+  let buttonColor = "#333333";
+
   if (theme === "secondary") {
-    buttonStyles.push(styles.buttonSecondary);
+    buttonColor = "#a6a6a6";
     textStyles.push(styles.textSecondary);
   } else if (theme === "accent") {
-    buttonStyles.push(styles.buttonAccent);
+    buttonColor = "#2196F3";
   }
 
+  // Using a simpler structure with just TouchableOpacity and Text
   return (
-    <TouchableOpacity onPress={onPress} style={buttonStyles}>
-      <Text style={textStyles}>{text}</Text>
+    <TouchableOpacity 
+      onPress={onPress}
+      style={[...buttonStyles, { backgroundColor: buttonColor }]}
+      activeOpacity={0.7}
+    >
+      <View style={styles.buttonContent}>
+        <Text style={textStyles}>{text}</Text>
+      </View>
     </TouchableOpacity>
-  )
-}
-
-//Set Dimensions
-const screen = Dimensions.get("window");
-const buttonWidth = screen.width / 4;
+  );
+};
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#333333",
     flex: 1,
-    height: Math.floor(buttonWidth - 10),
-    alignItems: "center",
-    justifyContent: "center",
+    margin: 5,
     borderRadius: Math.floor(buttonWidth),
-    margin: 5
+  },
+  buttonContent: {
+    height: Math.floor(buttonWidth - 10),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
     color: "#fff",
-    fontSize: 22
+    fontSize: 22,
+    fontWeight: '500',
+    textAlign: 'center',
+    textAlignVertical: 'center',
   },
   textSecondary: {
-    color: "#060606"
+    color: "#060606",
   },
   buttonDouble: {
     width: screen.width / 2 - 10,
     flex: 0,
-    alignItems: "flex-start",
-    paddingLeft: 40
   },
-  buttonSecondary: {
-    backgroundColor: "#a6a6a6"
-  },
-  buttonAccent: {
-    backgroundColor: "#2196F3"
-  }
-})
+});

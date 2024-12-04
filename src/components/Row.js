@@ -1,3 +1,4 @@
+import React from "react";
 import { StyleSheet, View } from "react-native";
 
 export default Row = ({ children }) => {
@@ -9,5 +10,7 @@ export default Row = ({ children }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 5,
   },
 })
