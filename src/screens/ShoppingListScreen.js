@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  Text,
-  SafeAreaView,
-} from "react-native";
+import { StyleSheet, SafeAreaView, FlatList } from "react-native";
+import { FAB, Card, Text } from "react-native-paper";
 import { saveShoppingList, loadShoppingList } from "../utils/storage";
-import { ShoppingListItem } from "../components/groceryListComponents/ShoppingListItem";
 import { AddItemModal } from "../components/groceryListComponents/AddItemModal";
 import { ActionModal } from "../components/groceryListComponents/ActionModal";
 
@@ -21,56 +15,34 @@ export default function ShoppingListScreen() {
   useEffect(() => {
     const fetchShoppingList = async () => {
       const loadedList = await loadShoppingList();
-      setShoppingList(loadedList);
+      setShoppingList(loadedList || []);
     };
     fetchShoppingList();
   }, []);
 
   const handleAddItem = (itemData) => {
-    const newItemObject = {
+    const newItem = {
       id: isEditing ? selectedItem.id : Date.now(),
       name: itemData.name,
       quantity: itemData.quantity,
       acquired: isEditing ? selectedItem.acquired : false,
     };
-
     setShoppingList((prevList) => {
       const updatedList = isEditing
-        ? prevList.map((item) =>
-            item.id === selectedItem.id ? newItemObject : item
-          )
-        : [...prevList, newItemObject];
+        ? prevList.map((item) => (item.id === selectedItem.id ? newItem : item))
+        : [...prevList, newItem];
       saveShoppingList(updatedList);
       return updatedList;
     });
-
     setAddModalVisible(false);
     setIsEditing(false);
     setSelectedItem(null);
   };
 
-  const handleDeleteItem = () => {
-    setShoppingList((prevList) => {
-      const updatedList = prevList.filter(
-        (item) => item.id !== selectedItem.id
-      );
-      saveShoppingList(updatedList);
-      return updatedList;
-    });
-    setActionModalVisible(false);
-    setSelectedItem(null);
-  };
-
-  const handleEditItem = () => {
-    setActionModalVisible(false);
-    setIsEditing(true);
-    setAddModalVisible(true);
-  };
-
-  const toggleAcquired = (itemId) => {
+  const toggleAcquired = (id) => {
     setShoppingList((prevList) => {
       const updatedList = prevList.map((item) =>
-        item.id === itemId ? { ...item, acquired: !item.acquired } : item
+        item.id === id ? { ...item, acquired: !item.acquired } : item
       );
       saveShoppingList(updatedList);
       return updatedList;
@@ -82,51 +54,60 @@ export default function ShoppingListScreen() {
     setActionModalVisible(true);
   };
 
+  const handleDeleteItem = () => {
+    setShoppingList((prevList) =>
+      prevList.filter((item) => item.id !== selectedItem.id)
+    );
+    setActionModalVisible(false);
+    setSelectedItem(null);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        style={styles.addButton}
+      <Text variant="headlineMedium" style={{ textAlign: "center", color: "#e6e6e6", marginBottom: 16 }}>
+        Shopping List
+      </Text>
+      <FlatList
+        data={shoppingList}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <Card
+            style={styles.card}
+            onPress={() => toggleAcquired(item.id)}
+            onLongPress={() => handleLongPress(item)}
+          >
+            <Card.Title
+              title={`${item.name} (x${item.quantity})`}
+              titleStyle={[styles.cardText, item.acquired && styles.acquired]}
+            />
+          </Card>
+        )}
+      />
+      <FAB
+        style={styles.fab}
+        icon="plus"
         onPress={() => {
           setIsEditing(false);
           setSelectedItem(null);
           setAddModalVisible(true);
         }}
-      >
-        <Text style={styles.addButtonText}>+ Add to List</Text>
-      </TouchableOpacity>
-
-      <FlatList
-        data={shoppingList}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <ShoppingListItem
-            item={item}
-            onPress={() => toggleAcquired(item.id)}
-            onLongPress={() => handleLongPress(item)}
-          />
-        )}
       />
-
       <AddItemModal
         visible={addModalVisible}
-        onClose={() => {
-          setAddModalVisible(false);
-          setIsEditing(false);
-          setSelectedItem(null);
-        }}
+        onClose={() => setAddModalVisible(false)}
         onSubmit={handleAddItem}
         item={selectedItem || { name: "", quantity: 1 }}
         isEditing={isEditing}
       />
-
       <ActionModal
         visible={actionModalVisible}
-        onClose={() => {
-          setActionModalVisible(false);
-          setSelectedItem(null);
-        }}
+        onClose={() => setActionModalVisible(false)}
         onDelete={handleDeleteItem}
-        onEdit={handleEditItem}
+        onEdit={() => {
+          setAddModalVisible(true);
+          setActionModalVisible(false);
+          setIsEditing(true);
+        }}
       />
     </SafeAreaView>
   );
@@ -135,19 +116,27 @@ export default function ShoppingListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
-    padding: 16,
+    backgroundColor: "#121212",
+    paddingHorizontal: 16,
+    paddingTop: 45,
   },
-  addButton: {
-    backgroundColor: "#2196F3",
-    padding: 12,
+  card: {
+    marginVertical: 8,
+    backgroundColor: "#1f1f1f",
     borderRadius: 8,
-    marginBottom: 16,
   },
-  addButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
+  cardText: {
+    color: "#e6e6e6",
     textAlign: "center",
+  },
+  acquired: {
+    textDecorationLine: "line-through",
+    color: "#999",
+  },
+  fab: {
+    position: "absolute",
+    right: 16,
+    bottom: 16,
+    backgroundColor: "#03dac6",
   },
 });

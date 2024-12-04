@@ -1,36 +1,36 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
+import { Card, Text } from "react-native-paper";
 
 export const ShoppingListItem = ({ item, onPress, onLongPress }) => (
-  <TouchableOpacity
-    style={styles.itemBox}
+  <Card
+    style={styles.card}
     onPress={onPress}
     onLongPress={onLongPress}
   >
-    <Text
-      style={[styles.itemText, item.acquired && styles.acquired]}>
+    <Card.Content>
+      <Text
+        variant="bodyLarge"
+        style={[styles.text, item.acquired && styles.acquired]}
+      >
         {item.name} (x{item.quantity})
-    </Text>
-  </TouchableOpacity>
+      </Text>
+    </Card.Content>
+  </Card>
 );
 
 const styles = StyleSheet.create({
-  itemBox: {
-    backgroundColor: '#fff',
-    padding: 16,
+  card: {
+    backgroundColor: "#2c2c2c",
     borderRadius: 8,
     marginBottom: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
   },
-  itemText: {
+  text: {
     fontSize: 16,
+    color: "#e0e0e0", // Light text for better contrast
   },
   acquired: {
-    textDecorationLine: 'line-through',
-    color: 'gray',
+    textDecorationLine: "line-through",
+    color: "#a8a8a8", // Dimmer gray for acquired items
   },
 });

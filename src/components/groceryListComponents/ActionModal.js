@@ -1,61 +1,41 @@
 import React from "react";
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Modal, Portal, Button } from "react-native-paper";
 
 export const ActionModal = ({ visible, onClose, onDelete, onEdit }) => (
-  <Modal
-    animationType="fade"
-    transparent={true}
-    visible={visible}
-    onRequestClose={onClose}
-  >
-    <TouchableOpacity
-      style={styles.actionModalOverlay}
-      activeOpacity={1}
-      onPress={onClose}
+  <Portal>
+    <Modal
+      visible={visible}
+      onDismiss={onClose}
+      contentContainerStyle={styles.modalContainer}
     >
-      <View style={styles.actionModalContainer}>
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={onEdit}
-          >
-            <Text style={styles.actionButtonText}>Edit</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.actionButton, styles.deleteButton]}
-            onPress={onDelete}
-          >
-            <Text style={styles.actionButtonText}>Delete</Text>
-          </TouchableOpacity>
+      <View>
+        <Button onPress={onEdit} mode="contained" style={styles.button}>
+          Edit
+        </Button>
+        <Button
+          onPress={onDelete}
+          mode="contained"
+          style={[styles.button, styles.deleteButton]}
+        >
+          Delete
+        </Button>
       </View>
-    </TouchableOpacity>
-  </Modal>
+    </Modal>
+  </Portal>
 );
 
 const styles = StyleSheet.create({
-  actionModalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  modalContainer: {
+    backgroundColor: "#1f1f1f",
+    padding: 20,
+    marginHorizontal: 20,
+    borderRadius: 10,
   },
-  actionModalContainer: {
-    backgroundColor: '#333',
-    borderRadius: 12,
-    padding: 16,
-    width: 200,
-  },
-  actionButton: {
-    backgroundColor: '#444',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 8,
+  button: {
+    marginBottom: 16,
   },
   deleteButton: {
-    backgroundColor: '#d32f2f',
-  },
-  actionButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    textAlign: 'center',
+    backgroundColor: "#d32f2f",
   },
 });
