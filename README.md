@@ -79,7 +79,7 @@ To run the application in development mode:
 The application configuration can be modified in the `app.json` file. Key configuration options include:
 
 - `name`: The display name of the application.
-- `version`: The current version of the application.
+- `version`: The current version of the application (currently set to 1.0.0).
 - `platforms`: Supported platforms (iOS, Android, web).
 - `orientation`: The supported orientation (portrait).
 
@@ -93,6 +93,7 @@ The application configuration can be modified in the `app.json` file. Key config
 2. Using the calculator:
    - Navigate to the Calculator screen.
    - Use the provided buttons to perform calculations.
+   - Access the calculation history by tapping the "History" button.
 
 ### Testing & Quality
 
