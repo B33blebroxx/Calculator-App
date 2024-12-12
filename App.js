@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { StatusBar, SafeAreaView, StyleSheet } from "react-native";
 import AppNavigator from "./src/navigation/AppNavigator";
 import { Provider as PaperProvider } from "react-native-paper";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function App() {
   useEffect(() => {
@@ -10,11 +11,13 @@ export default function App() {
   }, []);
 
   return (
-    <PaperProvider>
-      <SafeAreaView style={styles.container}>
-        <AppNavigator />
-      </SafeAreaView>
-    </PaperProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <PaperProvider>
+        <SafeAreaView style={styles.container}>
+          <AppNavigator />
+        </SafeAreaView>
+      </PaperProvider>
+    </GestureHandlerRootView>
   );
 }
 
